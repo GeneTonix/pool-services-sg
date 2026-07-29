@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact & Free Quote | Pool Services Singapore</title>
+  <meta name="description" content="Get a free quote for lifeguard services, pool maintenance, or equipment supply in Singapore. Contact us via form or WhatsApp.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="container">
+    <a href="index.html" class="logo"><span class="logo-icon">🏊</span> <span>[Pool Co]</span></a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="shop.html">Shop</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="contact.html" class="btn btn-primary btn-sm">Get a Free Quote</a>
+      <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== PAGE HERO ===== -->
+<section class="page-hero">
+  <div class="container">
+    <h1>Get a Free Quote</h1>
+    <p>Tell us what you need — a lifeguard, pool maintenance, or equipment supply — and we'll get back to you with a quote. No obligation.</p>
+  </div>
+</section>
+
+<!-- ===== QUOTE FORM ===== -->
+<section class="section">
+  <div class="container" style="max-width:760px;">
+    <div class="form-card">
+      <div class="form-success">
+        ✓ Thank you! We've received your quote request. We'll get back to you within [PLACEHOLDER — response time]. For urgent matters, WhatsApp us directly.
+      </div>
+      <form data-demo-form>
+        <h2 style="margin-bottom:0.5rem;">Request a Quote</h2>
+        <p style="margin-bottom:1.5rem;">Fill in the form below and we'll prepare a quote for you.</p>
+
+        <div class="form-group">
+          <label>Service Type <span class="req">*</span></label>
+          <select name="serviceType" id="serviceType" required>
+            <option value="">— Select a service —</option>
+            <option value="lifeguard">Ad Hoc Lifeguard Services</option>
+            <option value="maintenance">Ad Hoc Pool Maintenance</option>
+            <option value="equipment">Pool & Swimming Equipment Supply</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Property Type <span class="req">*</span></label>
+            <select name="propertyType" required>
+              <option value="">— Select —</option>
+              <option value="condominium">Condominium</option>
+              <option value="country_club">Country Club</option>
+              <option value="school">School</option>
+              <option value="hotel">Hotel</option>
+              <option value="event">Event</option>
+              <option value="private_residence">Private Residence</option>
+              <option value="landed_property">Landed Property</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Pool Type</label>
+            <select name="poolType">
+              <option value="">— Select —</option>
+              <option value="condo_pool">Condominium Pool</option>
+              <option value="private_pool">Private Pool</option>
+              <option value="commercial_pool">Commercial Pool</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Service Date (if known)</label>
+            <input type="date" name="serviceDate">
+          </div>
+          <div class="form-group">
+            <label>Recurrence</label>
+            <select name="recurrence">
+              <option value="">— Select —</option>
+              <option value="one_time">One-time</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+              <option value="not_sure">Not sure</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Location / Area in Singapore <span class="req">*</span></label>
+          <input type="text" name="location" placeholder="e.g., Bukit Timah, Sentosa Cove, Serangoon Gardens" required>
+        </div>
+
+        <div class="form-group">
+          <label>Description of Your Needs <span class="req">*</span></label>
+          <textarea name="message" placeholder="Tell us what you need — pool size, number of lifeguards, equipment needed, maintenance issues, etc." required></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name <span class="req">*</span></label>
+            <input type="text" name="name" placeholder="Full name" required>
+          </div>
+          <div class="form-group">
+            <label>Phone <span class="req">*</span></label>
+            <input type="tel" name="phone" placeholder="+65 XXXX XXXX" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="your@email.com">
+          </div>
+          <div class="form-group">
+            <label>Company / Business (optional)</label>
+            <input type="text" name="company" placeholder="Company name (if applicable)">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label style="display:flex;align-items:center;gap:0.5rem;font-weight:400;">
+            <input type="checkbox" name="whatsapp" style="width:auto;">
+            Contact me via WhatsApp
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Submit Quote Request</button>
+        <p class="form-note">We'll get back to you within [PLACEHOLDER — response time]. Your information will not be shared with third parties.</p>
+      </form>
+    </div>
+
+    <!-- Alternative Contact -->
+    <div style="margin-top:2rem;text-align:center;">
+      <h3 style="margin-bottom:0.5rem;">Prefer to Chat?</h3>
+      <p style="margin-bottom:1rem;">Reach us directly on WhatsApp or phone.</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <a href="https://wa.me/65XXXXXXXXX" class="btn btn-whatsapp btn-lg">💬 WhatsApp Us</a>
+        <a href="tel:+65XXXXXXXX" class="btn btn-secondary btn-lg">📞 Call Us</a>
+      </div>
+      <p style="margin-top:1.5rem;color:var(--color-text-muted);">
+        <strong>Phone:</strong> [PLACEHOLDER — CLIENT TO PROVIDE: phone number]<br>
+        <strong>Email:</strong> [PLACEHOLDER — CLIENT TO PROVIDE: email address]<br>
+        <strong>WhatsApp:</strong> [PLACEHOLDER — CLIENT TO PROVIDE: WhatsApp number]<br>
+        <strong>Operating Hours:</strong> [PLACEHOLDER — CLIENT TO PROVIDE: operating hours]<br>
+        <strong>Service Area:</strong> Singapore (islandwide)
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-brand">
+      <a href="index.html" class="logo" style="color:#fff;"><span class="logo-icon">🏊</span> <span>[Pool Co]</span></a>
+      <p>Professional swimming pool solutions in Singapore — lifeguard services, pool maintenance, and equipment supply.</p>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="shop.html">Shop</a><a href="contact.html">Contact</a>
+    </div>
+    <div>
+      <h4>Services</h4>
+      <a href="services.html#lifeguard">Lifeguard Services</a><a href="services.html#maintenance">Pool Maintenance</a><a href="shop.html">Equipment Supply</a>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <a href="tel:+65XXXXXXXX">[PLACEHOLDER: phone]</a><a href="https://wa.me/65XXXXXXXXX">WhatsApp</a><a href="mailto:info@example.com">[PLACEHOLDER: email]</a>
+      <p style="color:#64748B;font-size:0.8rem;margin-top:0.5rem;">[PLACEHOLDER — CLIENT TO PROVIDE: business registration number]</p>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 [PLACEHOLDER — CLIENT TO PROVIDE: company name]. All rights reserved.</div>
+</footer>
+
+<div class="mobile-cta-bar">
+  <div class="bar-content">
+    <a href="contact.html" class="btn btn-primary">Get a Quote</a>
+    <a href="https://wa.me/65XXXXXXXXX" class="btn btn-whatsapp">💬 WhatsApp</a>
+  </div>
+</div>
+
+<a href="#" class="quote-indicator btn btn-primary">📋 Quote List <span class="quote-count">0</span></a>
+<div class="modal-overlay"><div class="modal"><button class="modal-close">×</button><h3>Your Quote List</h3><div class="quote-items"></div><a href="contact.html" class="btn btn-primary btn-block">Submit Quote Request</a></div></div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
