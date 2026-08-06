@@ -201,6 +201,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
   /* --- Contact page: pre-fill from URL params --- */
   const params = new URLSearchParams(window.location.search);
+
+  /* --- Product image gallery --- */
+  document.querySelectorAll('.product-gallery').forEach(gallery => {
+    const mainImgs = gallery.querySelectorAll('.gallery-main img');
+    const thumbs = gallery.querySelectorAll('.gallery-thumbs img');
+    thumbs.forEach((thumb, i) => {
+      thumb.addEventListener('click', () => {
+        mainImgs.forEach(img => img.style.display = 'none');
+        if (mainImgs[i]) mainImgs[i].style.display = 'block';
+        thumbs.forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+      });
+    });
+  });
   const productParam = params.get('product');
   const moqParam = params.get('moq');
   if (productParam) {
