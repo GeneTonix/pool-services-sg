@@ -1,0 +1,7 @@
+.hermes-tmp*
+*.tmp
+download_*.py
+fix_*.py
+check_*.py
+verify_*.py
+resize_*.py
