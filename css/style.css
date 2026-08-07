@@ -399,6 +399,60 @@ ul { list-style: none; }
 .gallery-badge-row { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 0.5rem; }
 
 /* ============================================
+   LIGHTBOX (click to enlarge + zoom)
+   ============================================ */
+.lightbox {
+  display: none; position: fixed; inset: 0; z-index: 3000;
+  background: rgba(0,0,0,0.9); align-items: center; justify-content: center;
+  flex-direction: column; padding: 1rem;
+}
+.lightbox.open { display: flex; }
+.lightbox-img-wrapper {
+  position: relative; max-width: 90vw; max-height: 75vh; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.lightbox-img {
+  max-width: 90vw; max-height: 75vh; object-fit: contain;
+  transition: transform 0.2s ease; transform-origin: center center;
+  cursor: grab; user-select: none; -webkit-user-drag: none;
+}
+.lightbox-img.zoomed { cursor: grab; }
+.lightbox-img.dragging { cursor: grabbing; transition: none; }
+.lightbox-close {
+  position: absolute; top: 1rem; right: 1.5rem; background: none; border: none;
+  color: #fff; font-size: 2rem; cursor: pointer; z-index: 3001; line-height: 1;
+  padding: 0.5rem; border-radius: 50%; transition: background 0.2s;
+}
+.lightbox-close:hover { background: rgba(255,255,255,0.15); }
+.lightbox-controls {
+  display: flex; gap: 0.75rem; margin-top: 1rem; align-items: center;
+}
+.lightbox-btn {
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+  color: #fff; width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
+  font-size: 1.3rem; display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.lightbox-btn:hover { background: rgba(255,255,255,0.3); }
+.lightbox-zoom-level {
+  color: rgba(255,255,255,0.7); font-size: 0.85rem; min-width: 50px; text-align: center;
+}
+.lightbox-prev, .lightbox-next {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: rgba(255,255,255,0.1); border: none; color: #fff;
+  width: 48px; height: 48px; border-radius: 50%; cursor: pointer;
+  font-size: 1.5rem; display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s; z-index: 3001;
+}
+.lightbox-prev { left: 1rem; }
+.lightbox-next { right: 1rem; }
+.lightbox-prev:hover, .lightbox-next:hover { background: rgba(255,255,255,0.25); }
+@media (max-width: 580px) {
+  .lightbox-prev { left: 0.5rem; }
+  .lightbox-next { right: 0.5rem; }
+}
+
+/* ============================================
    PLACEHOLDER LABELS
    ============================================ */
 .placeholder-tag {

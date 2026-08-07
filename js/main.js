@@ -215,6 +215,171 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   });
+
+  /* --- Lightbox (click to enlarge + zoom) --- */
+  // Create lightbox elements if not present
+  if (!document.querySelector('.lightbox')) {
+    const lightbox = document.createElement('div');
+    lightbox.className = 'lightbox';
+    lightbox.innerHTML = `
+      <button class="lightbox-close" aria-label="Close">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous">&#8249;</button>
+      <div class="lightbox-img-wrapper">
+        <img class="lightbox-img" src="" alt="Enlarged product image">
+      </div>
+      <button class="lightbox-next" aria-label="Next">&#8250;</button>
+      <div class="lightbox-controls">
+        <button class="lightbox-btn zoom-out" aria-label="Zoom out">&minus;</button>
+        <span class="lightbox-zoom-level">100%</span>
+        <button class="lightbox-btn zoom-in" aria-label="Zoom in">&plus;</button>
+        <button class="lightbox-btn zoom-reset" aria-label="Reset zoom">&#8634;</button>
+      </div>
+    `;
+    document.body.appendChild(lightbox);
+  }
+
+  const lightbox = document.querySelector('.lightbox');
+  const lightboxImg = document.querySelector('.lightbox-img');
+  const lightboxClose = document.querySelector('.lightbox-close');
+  const lightboxZoomIn = document.querySelector('.lightbox-btn.zoom-in');
+  const lightboxZoomOut = document.querySelector('.lightbox-btn.zoom-out');
+  const lightboxZoomReset = document.querySelector('.lightbox-btn.zoom-reset');
+  const lightboxZoomLevel = document.querySelector('.lightbox-zoom-level');
+  const lightboxPrev = document.querySelector('.lightbox-prev');
+  const lightboxNext = document.querySelector('.lightbox-next');
+
+  let lbZoom = 1;
+  let lbOffsetX = 0, lbOffsetY = 0;
+  let lbImages = [];
+  let lbIndex = 0;
+  let isDragging = false;
+  let dragStartX = 0, dragStartY = 0;
+
+  function updateLightboxTransform() {
+    lightboxImg.style.transform = `translate(${lbOffsetX}px, ${lbOffsetY}px) scale(${lbZoom})`;
+    lightboxZoomLevel.textContent = Math.round(lbZoom * 100) + '%';
+  }
+
+  function openLightbox(images, startIndex) {
+    lbImages = images;
+    lbIndex = startIndex;
+    lbZoom = 1;
+    lbOffsetX = 0;
+    lbOffsetY = 0;
+    lightboxImg.src = lbImages[lbIndex];
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    updateLightboxTransform();
+    // Show/hide prev/next based on image count
+    lightboxPrev.style.display = lbImages.length > 1 ? 'flex' : 'none';
+    lightboxNext.style.display = lbImages.length > 1 ? 'flex' : 'none';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function showLbImage(index) {
+    lbIndex = ((index % lbImages.length) + lbImages.length) % lbImages.length;
+    lbZoom = 1;
+    lbOffsetX = 0;
+    lbOffsetY = 0;
+    lightboxImg.src = lbImages[lbIndex];
+    updateLightboxTransform();
+  }
+
+  // Click on main gallery images to open lightbox
+  document.querySelectorAll('.product-gallery').forEach(gallery => {
+    const mainImgs = gallery.querySelectorAll('.gallery-main img');
+    const imageSrcs = Array.from(mainImgs).map(img => img.src);
+    mainImgs.forEach((img, i) => {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', () => openLightbox(imageSrcs, i));
+    });
+  });
+
+  // Lightbox controls
+  if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+  if (lightbox) lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox || e.target.classList.contains('lightbox-img-wrapper')) closeLightbox();
+  });
+  if (lightboxZoomIn) lightboxZoomIn.addEventListener('click', () => {
+    lbZoom = Math.min(lbZoom + 0.25, 4);
+    updateLightboxTransform();
+  });
+  if (lightboxZoomOut) lightboxZoomOut.addEventListener('click', () => {
+    lbZoom = Math.max(lbZoom - 0.25, 0.5);
+    if (lbZoom <= 1) { lbOffsetX = 0; lbOffsetY = 0; }
+    updateLightboxTransform();
+  });
+  if (lightboxZoomReset) lightboxZoomReset.addEventListener('click', () => {
+    lbZoom = 1; lbOffsetX = 0; lbOffsetY = 0;
+    updateLightboxTransform();
+  });
+  if (lightboxPrev) lightboxPrev.addEventListener('click', (e) => { e.stopPropagation(); showLbImage(lbIndex - 1); });
+  if (lightboxNext) lightboxNext.addEventListener('click', (e) => { e.stopPropagation(); showLbImage(lbIndex + 1); });
+
+  // Scroll wheel zoom in lightbox
+  if (lightboxImg) {
+    lightboxImg.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      if (e.deltaY < 0) lbZoom = Math.min(lbZoom + 0.15, 4);
+      else lbZoom = Math.max(lbZoom - 0.15, 0.5);
+      if (lbZoom <= 1) { lbOffsetX = 0; lbOffsetY = 0; }
+      updateLightboxTransform();
+    });
+  }
+
+  // Drag to pan when zoomed in
+  if (lightboxImg) {
+    lightboxImg.addEventListener('mousedown', (e) => {
+      if (lbZoom > 1) {
+        isDragging = true;
+        dragStartX = e.clientX - lbOffsetX;
+        dragStartY = e.clientY - lbOffsetY;
+        lightboxImg.classList.add('dragging');
+      }
+    });
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        lbOffsetX = e.clientX - dragStartX;
+        lbOffsetY = e.clientY - dragStartY;
+        updateLightboxTransform();
+      }
+    });
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+      if (lightboxImg) lightboxImg.classList.remove('dragging');
+    });
+
+    // Touch support for mobile
+    let touchStartX = 0, touchStartY = 0;
+    lightboxImg.addEventListener('touchstart', (e) => {
+      if (lbZoom > 1 && e.touches.length === 1) {
+        touchStartX = e.touches[0].clientX - lbOffsetX;
+        touchStartY = e.touches[0].clientY - lbOffsetY;
+      }
+    });
+    lightboxImg.addEventListener('touchmove', (e) => {
+      if (lbZoom > 1 && e.touches.length === 1) {
+        e.preventDefault();
+        lbOffsetX = e.touches[0].clientX - touchStartX;
+        lbOffsetY = e.touches[0].clientY - touchStartY;
+        updateLightboxTransform();
+      }
+    });
+  }
+
+  // Keyboard controls for lightbox
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') showLbImage(lbIndex - 1);
+    if (e.key === 'ArrowRight') showLbImage(lbIndex + 1);
+    if (e.key === '+' || e.key === '=') { lbZoom = Math.min(lbZoom + 0.25, 4); updateLightboxTransform(); }
+    if (e.key === '-') { lbZoom = Math.max(lbZoom - 0.25, 0.5); if (lbZoom <= 1) { lbOffsetX = 0; lbOffsetY = 0; } updateLightboxTransform(); }
+  });
   const productParam = params.get('product');
   const moqParam = params.get('moq');
   if (productParam) {
