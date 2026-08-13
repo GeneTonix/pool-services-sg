@@ -115,7 +115,8 @@ ul { list-style: none; }
 .header.scrolled { border-bottom-color: var(--color-border); box-shadow: 0 1px 8px rgba(0,0,0,0.05); }
 .header .container { display: flex; align-items: center; justify-content: space-between; width: 100%; }
 
-.logo { display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-heading); font-weight: 700; font-size: 1.2rem; color: var(--color-text); }
+.logo { display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-heading); font-weight: 700; font-size: 1.1rem; color: var(--color-text); }
+.logo img { width: 36px; height: 36px; border-radius: var(--radius-sm); object-fit: cover; }
 .logo-icon { width: 36px; height: 36px; border-radius: var(--radius-sm); background: var(--color-primary); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem; }
 
 .nav-links { display: flex; align-items: center; gap: 2rem; }
