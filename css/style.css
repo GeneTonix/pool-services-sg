@@ -407,9 +407,9 @@ ul { list-style: none; }
    Default for all products: object-fit: cover
    ============================================ */
 .product-platform .gallery-main img { object-fit: contain; transform: scale(0.8); }
-.product-platform .gallery-main { background: #FFFFFF; }
+.product-platform .gallery-main { background: #FFFFFF; border-bottom: none; }
 .product-platform .gallery-thumbs { background: #FFFFFF; border-bottom: none; }
-.product-platform .gallery-main { border-bottom: none; }
+.product-platform { background: #FFFFFF; border-color: #FFFFFF; }
 /* .product-life-vest-rack .gallery-main img { object-fit: contain; } */
 .product-lifeguard-chair .gallery-main img { object-fit: contain; }
 /* .product-kickboard .gallery-main img { object-fit: contain; } */
