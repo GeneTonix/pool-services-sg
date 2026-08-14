@@ -401,6 +401,21 @@ ul { list-style: none; }
 .gallery-badge-row { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 0.5rem; }
 
 /* ============================================
+   PER-PRODUCT IMAGE OVERRIDES
+   Change object-fit, aspect-ratio, or other
+   properties for individual products here.
+   Default for all products: object-fit: cover
+   ============================================ */
+/* .product-platform .gallery-main img { object-fit: contain; } */
+/* .product-life-vest-rack .gallery-main img { object-fit: contain; } */
+.product-lifeguard-chair .gallery-main img { object-fit: contain; }
+/* .product-kickboard .gallery-main img { object-fit: contain; } */
+/* .product-swim-fins .gallery-main img { object-fit: contain; } */
+/* .product-training-paddles .gallery-main img { object-fit: contain; } */
+/* .product-pull-buoy .gallery-main img { object-fit: contain; } */
+/* .product-goggle .gallery-main img { object-fit: contain; } */
+
+/* ============================================
    LIGHTBOX (click to enlarge + zoom)
    ============================================ */
 .lightbox {
