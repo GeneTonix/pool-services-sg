@@ -406,7 +406,7 @@ ul { list-style: none; }
    properties for individual products here.
    Default for all products: object-fit: cover
    ============================================ */
-.product-platform .gallery-main img { object-fit: contain; }
+.product-platform .gallery-main img { object-fit: contain; width: 100% !important; height: 100% !important; max-width: none !important; }
 /* .product-life-vest-rack .gallery-main img { object-fit: contain; } */
 .product-lifeguard-chair .gallery-main img { object-fit: contain; }
 /* .product-kickboard .gallery-main img { object-fit: contain; } */
