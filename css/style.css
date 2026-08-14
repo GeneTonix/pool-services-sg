@@ -410,6 +410,7 @@ ul { list-style: none; }
 .product-platform .gallery-main { background: #FFFFFF; }
 /* .product-life-vest-rack .gallery-main img { object-fit: contain; } */
 .product-lifeguard-chair .gallery-main img { object-fit: contain; }
+.product-lifeguard-chair .gallery-main { background: #EEDEC5; }
 /* .product-kickboard .gallery-main img { object-fit: contain; } */
 /* .product-swim-fins .gallery-main img { object-fit: contain; } */
 /* .product-training-paddles .gallery-main img { object-fit: contain; } */
