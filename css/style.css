@@ -407,14 +407,8 @@ ul { list-style: none; }
    Default for all products: object-fit: cover
    ============================================ */
 .product-platform .gallery-main img { object-fit: contain; transform: scale(0.8); }
-.product-platform .gallery-main { background: #FFFFFF; border-bottom: none; }
-.product-platform .gallery-thumbs { background: #FFFFFF; border-bottom: none; }
-.product-platform { background: #FFFFFF; border-color: #FFFFFF; }
 /* .product-life-vest-rack .gallery-main img { object-fit: contain; } */
 .product-lifeguard-chair .gallery-main img { object-fit: contain; }
-.product-lifeguard-chair { background: #EEDEC5; border-color: #EEDEC5; }
-.product-lifeguard-chair .gallery-main { background: #EEDEC5; border-bottom: none; }
-.product-lifeguard-chair .gallery-thumbs { background: #EEDEC5; border-bottom: none; }
 /* .product-kickboard .gallery-main img { object-fit: contain; } */
 /* .product-swim-fins .gallery-main img { object-fit: contain; } */
 /* .product-training-paddles .gallery-main img { object-fit: contain; } */
