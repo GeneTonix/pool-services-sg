@@ -180,6 +180,11 @@ document.addEventListener('DOMContentLoaded', function() {
         successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
       form.reset();
+      // Clear the quote list after submission
+      localStorage.removeItem('quoteItems');
+      // Update the quote indicator to hide it
+      const indicator = document.querySelector('.quote-indicator');
+      if (indicator) indicator.classList.remove('show');
       setTimeout(() => { if (successMsg) successMsg.classList.remove('show'); }, 6000);
     });
   });
