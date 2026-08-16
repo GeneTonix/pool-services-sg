@@ -411,7 +411,8 @@ ul { list-style: none; }
 /* .product-life-vest-rack .gallery-main img { object-fit: contain; } */
 .product-life-vest-rack .gallery-main img { object-fit: contain; }
 .product-life-vest-rack .gallery-main img:first-child { transform: scale(1.2); }
-.product-life-vest-rack .gallery-main img:nth-child(2) { transform: scale(0.8); }
+.product-life-vest-rack .gallery-main img:nth-child(2) { transform: scale(0.9); }
+.product-life-vest-rack .gallery-main { background: #FFFFFF !important; }
 .product-lifeguard-chair .gallery-main img { object-fit: contain; }
 .product-lifeguard-chair .gallery-main { background: #EEDEC5 !important; }
 /* .product-kickboard .gallery-main img { object-fit: contain; } */
