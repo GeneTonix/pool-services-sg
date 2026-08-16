@@ -382,14 +382,50 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   const productParam = params.get('product');
   const moqParam = params.get('moq');
+  const serviceParam = params.get('service');
+  const bulkParam = params.get('bulk');
+  
+  const serviceTypeField = document.querySelector('select[name="serviceType"]');
+  const messageField = document.querySelector('textarea[name="message"]');
+  
+  // Fix 1: Service page CTAs (?service=lifeguard, ?service=maintenance, ?service=equipment)
+  if (serviceParam) {
+    const serviceMap = {
+      'lifeguard': { type: 'lifeguard', message: "I'd like to request a lifeguard for my event/property." },
+      'maintenance': { type: 'maintenance', message: "I'd like to book pool maintenance services." },
+      'equipment': { type: 'equipment', message: "I'd like to inquire about equipment supply." }
+    };
+    const config = serviceMap[serviceParam];
+    if (config && serviceTypeField) serviceTypeField.value = config.type;
+    if (config && messageField) messageField.value = config.message;
+  }
+  
+  // Fix 1b: Bulk order (?bulk=1 or ?service=equipment&bulk=1)
+  if (bulkParam === '1' || (serviceParam === 'equipment' && bulkParam === '1')) {
+    if (serviceTypeField) serviceTypeField.value = 'equipment';
+    if (messageField) messageField.value = "I'd like to request a bulk order for equipment.";
+  }
+  
+  // Fix 2: Shop page Enquire button (?product=ProductName&moq=20)
   if (productParam) {
-    const serviceType = document.getElementById('serviceType');
-    if (serviceType) serviceType.value = 'equipment';
-    const messageField = document.querySelector('textarea[name="message"]');
+    if (serviceTypeField) serviceTypeField.value = 'equipment';
     if (messageField) {
       messageField.value = `I'd like to inquire about: ${productParam}` + (moqParam ? ` (MOQ: ${moqParam} pcs)` : '');
     }
-    const serviceTypeField = document.querySelector('select[name="serviceType"]');
-    if (serviceTypeField) serviceTypeField.value = 'equipment';
+  }
+  
+  // Fix 3: Quote List submission (?quote=1 with products in localStorage)
+  const quoteParam = params.get('quote');
+  if (quoteParam === '1') {
+    const quoteItems = JSON.parse(localStorage.getItem('quoteItems') || '[]');
+    if (quoteItems.length > 0) {
+      if (serviceTypeField) serviceTypeField.value = 'equipment';
+      if (messageField) {
+        const itemList = quoteItems.map(item => 
+          item.name + (item.moq ? ` (MOQ: ${item.moq} pcs)` : '')
+        ).join(', ');
+        messageField.value = `I'd like a quote for: ${itemList}`;
+      }
+    }
   }
 });
