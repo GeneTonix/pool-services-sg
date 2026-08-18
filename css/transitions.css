@@ -1,0 +1,95 @@
+/* ============================================
+   ORIONT — PAGE TRANSITIONS
+   Drop-in. Load AFTER css/style.css on every page.
+
+   The overlay reveals itself with a pure CSS animation
+   on load, so if the JS never runs the page still
+   appears normally. JS only handles the exit sweep.
+   ============================================ */
+
+:root{
+  --pt-out: 420ms;          /* leaving a page */
+  --pt-in: 620ms;           /* arriving on a page */
+  --pt-ease: cubic-bezier(.65,0,.35,1);
+  --pt-deep: #163A75;
+  --pt-mid:  #1E4E9C;
+}
+
+/* ---------- the sweeping panel ---------- */
+.pt-veil{
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  transform: translateY(0);
+  animation: ptReveal var(--pt-in) var(--pt-ease) forwards;
+}
+.pt-veil .pt-fill{
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, var(--pt-mid), var(--pt-deep));
+}
+/* wave crest sits above the fill so the edge is water, not a straight line */
+.pt-veil .pt-crest{
+  position: absolute;
+  left: 0; right: 0; bottom: 100%;
+  width: 100%; height: 90px;
+  display: block;
+}
+.pt-veil .pt-crest path{ fill: var(--pt-mid); }
+
+/* arriving: panel slides up and off the top */
+@keyframes ptReveal{
+  from { transform: translateY(0); }
+  to   { transform: translateY(-115%); }
+}
+
+/* leaving: panel sweeps up from below to cover */
+.pt-veil.pt-cover{
+  animation: none;
+  transform: translateY(100%);
+  transition: transform var(--pt-out) var(--pt-ease);
+}
+.pt-veil.pt-cover.pt-go{ transform: translateY(0); }
+
+/* the small mark that rides with the panel */
+.pt-veil .pt-mark{
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%,-50%);
+  font-family: var(--font-heading, system-ui), sans-serif;
+  font-weight: 700;
+  letter-spacing: .22em;
+  font-size: .82rem;
+  color: rgba(255,255,255,.62);
+  opacity: 0;
+  animation: ptMark var(--pt-in) ease forwards;
+}
+@keyframes ptMark{
+  0%   { opacity: .62; }
+  45%  { opacity: .3; }
+  100% { opacity: 0; }
+}
+.pt-veil.pt-cover .pt-mark{ animation: none; opacity: 0; transition: opacity 260ms ease 120ms; }
+.pt-veil.pt-cover.pt-go .pt-mark{ opacity: .62; }
+
+/* ---------- content settle on arrival ---------- */
+.pt-enter .page-hero .container,
+.pt-enter .hero-content,
+.pt-enter .section > .container{
+  animation: ptRise 620ms var(--pt-ease) 120ms both;
+}
+@keyframes ptRise{
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- nav link feedback while leaving ---------- */
+.pt-leaving a, .pt-leaving button{ pointer-events: none; }
+
+@media (prefers-reduced-motion: reduce){
+  .pt-veil{ display: none !important; }
+  .pt-enter .page-hero .container,
+  .pt-enter .hero-content,
+  .pt-enter .section > .container{ animation: none !important; }
+}
