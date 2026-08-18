@@ -1,21 +1,21 @@
 /* ============================================
-   ORIONT — PAGE TRANSITIONS
+   ORIONT — PAGE TRANSITIONS  v2
    Drop-in. Load AFTER css/style.css on every page.
+   Replaces transitions.css v1.
 
-   The overlay reveals itself with a pure CSS animation
-   on load, so if the JS never runs the page still
-   appears normally. JS only handles the exit sweep.
+   v2 changes: the plain "ORIONT" text on the panel is
+   replaced by the real logo, with a drop-ripple and a
+   slow caustic shimmer behind it.
    ============================================ */
 
 :root{
-  --pt-out: 420ms;          /* leaving a page */
-  --pt-in: 620ms;           /* arriving on a page */
+  --pt-out: 420ms;
+  --pt-in: 620ms;
   --pt-ease: cubic-bezier(.65,0,.35,1);
   --pt-deep: #163A75;
   --pt-mid:  #1E4E9C;
 }
 
-/* ---------- the sweeping panel ---------- */
 .pt-veil{
   position: fixed;
   inset: 0;
@@ -29,7 +29,22 @@
   inset: 0;
   background: linear-gradient(160deg, var(--pt-mid), var(--pt-deep));
 }
-/* wave crest sits above the fill so the edge is water, not a straight line */
+
+/* slow caustic shimmer so the panel reads as water, not a colour block */
+.pt-veil .pt-caustic{
+  position: absolute;
+  inset: -30%;
+  opacity: .34;
+  mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='500'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='3' seed='9'/%3E%3CfeColorMatrix values='0 0 0 0 0.85 0 0 0 0 0.97 0 0 0 0 1 2 0 0 0 -1.05'/%3E%3C/filter%3E%3Crect width='500' height='500' filter='url(%23c)'/%3E%3C/svg%3E");
+  background-size: 420px 420px;
+  animation: ptDrift 26s linear infinite;
+}
+@keyframes ptDrift{
+  from { background-position: 0 0; }
+  to   { background-position: 420px 220px; }
+}
+
 .pt-veil .pt-crest{
   position: absolute;
   left: 0; right: 0; bottom: 100%;
@@ -38,13 +53,11 @@
 }
 .pt-veil .pt-crest path{ fill: var(--pt-mid); }
 
-/* arriving: panel slides up and off the top */
 @keyframes ptReveal{
   from { transform: translateY(0); }
   to   { transform: translateY(-115%); }
 }
 
-/* leaving: panel sweeps up from below to cover */
 .pt-veil.pt-cover{
   animation: none;
   transform: translateY(100%);
@@ -52,26 +65,73 @@
 }
 .pt-veil.pt-cover.pt-go{ transform: translateY(0); }
 
-/* the small mark that rides with the panel */
-.pt-veil .pt-mark{
+/* ---------- the logo lockup at centre ---------- */
+.pt-badge{
   position: absolute;
   left: 50%; top: 50%;
   transform: translate(-50%,-50%);
-  font-family: var(--font-heading, system-ui), sans-serif;
-  font-weight: 700;
-  letter-spacing: .22em;
-  font-size: .82rem;
-  color: rgba(255,255,255,.62);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px; height: 200px;
+}
+.pt-badge img{
+  position: relative;
+  z-index: 2;
+  width: 150px;
+  height: auto;
   opacity: 0;
-  animation: ptMark var(--pt-in) ease forwards;
+  transform: scale(.94);
 }
-@keyframes ptMark{
-  0%   { opacity: .62; }
-  45%  { opacity: .3; }
-  100% { opacity: 0; }
+
+/* drop rings spreading out from behind the logo */
+.pt-badge i{
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 96px; height: 96px;
+  margin: -48px 0 0 -48px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(147,197,253,.5);
+  transform: scale(.2);
+  opacity: 0;
 }
-.pt-veil.pt-cover .pt-mark{ animation: none; opacity: 0; transition: opacity 260ms ease 120ms; }
-.pt-veil.pt-cover.pt-go .pt-mark{ opacity: .62; }
+
+/* --- arriving: logo settles, rings spread, then all fade --- */
+.pt-veil:not(.pt-cover) .pt-badge img{
+  animation: ptLogoOut var(--pt-in) var(--pt-ease) forwards;
+}
+.pt-veil:not(.pt-cover) .pt-badge i{
+  animation: ptRing 900ms cubic-bezier(.2,.7,.3,1) forwards;
+}
+.pt-veil:not(.pt-cover) .pt-badge i:nth-child(2){ animation-delay: 130ms; }
+.pt-veil:not(.pt-cover) .pt-badge i:nth-child(3){ animation-delay: 260ms; }
+
+@keyframes ptLogoOut{
+  0%   { opacity: 1; transform: scale(1); }
+  45%  { opacity: .85; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.03); }
+}
+@keyframes ptRing{
+  0%   { opacity: .55; transform: scale(.2); }
+  100% { opacity: 0;   transform: scale(2.6); }
+}
+
+/* --- leaving: logo rises into view as the panel covers --- */
+.pt-veil.pt-cover .pt-badge img{ animation: none; opacity: 0; transform: scale(.94); }
+.pt-veil.pt-cover .pt-badge i{ animation: none; opacity: 0; }
+.pt-veil.pt-cover.pt-go .pt-badge img{
+  animation: ptLogoIn 460ms var(--pt-ease) 90ms forwards;
+}
+.pt-veil.pt-cover.pt-go .pt-badge i{
+  animation: ptRing 900ms cubic-bezier(.2,.7,.3,1) 200ms forwards;
+}
+.pt-veil.pt-cover.pt-go .pt-badge i:nth-child(2){ animation-delay: 330ms; }
+.pt-veil.pt-cover.pt-go .pt-badge i:nth-child(3){ animation-delay: 460ms; }
+
+@keyframes ptLogoIn{
+  from { opacity: 0; transform: scale(.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
 
 /* ---------- content settle on arrival ---------- */
 .pt-enter .page-hero .container,
@@ -84,8 +144,12 @@
   to   { opacity: 1; transform: none; }
 }
 
-/* ---------- nav link feedback while leaving ---------- */
 .pt-leaving a, .pt-leaving button{ pointer-events: none; }
+
+@media (max-width: 580px){
+  .pt-badge{ width: 150px; height: 150px; }
+  .pt-badge img{ width: 118px; }
+}
 
 @media (prefers-reduced-motion: reduce){
   .pt-veil{ display: none !important; }
