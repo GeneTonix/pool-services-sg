@@ -208,18 +208,24 @@ document.addEventListener('DOMContentLoaded', function() {
   const params = new URLSearchParams(window.location.search);
 
   /* --- Product image gallery --- */
-  document.querySelectorAll('.product-gallery').forEach(gallery => {
-    const mainImgs = gallery.querySelectorAll('.gallery-main img');
-    const thumbs = gallery.querySelectorAll('.gallery-thumbs img');
-    thumbs.forEach((thumb, i) => {
-      thumb.addEventListener('click', () => {
-        mainImgs.forEach(img => img.style.display = 'none');
-        if (mainImgs[i]) mainImgs[i].style.display = 'block';
-        thumbs.forEach(t => t.classList.remove('active'));
-        thumb.classList.add('active');
+    document.querySelectorAll('.product-gallery').forEach(gallery => {
+      const mainImgs = gallery.querySelectorAll('.gallery-main img');
+      const thumbs = gallery.querySelectorAll('.gallery-thumbs img');
+      thumbs.forEach((thumb, i) => {
+        thumb.addEventListener('click', () => {
+          mainImgs.forEach(img => img.style.display = 'none');
+          if (mainImgs[i]) mainImgs[i].style.display = 'block';
+          thumbs.forEach(t => t.classList.remove('active'));
+          thumb.classList.add('active');
+          // If the mouse is parked over the main image area, re-fire the hover popup
+          const shown = mainImgs[i];
+          const mainBox = gallery.querySelector('.gallery-main');
+          if (shown && mainBox && mainBox.matches(':hover') && typeof window.__hoverPopupShow === 'function') {
+            window.__hoverPopupShow(shown.getAttribute('src'));
+          }
+        });
       });
     });
-  });
 
   /* --- Lightbox (click to enlarge + zoom) --- */
   // Create lightbox elements if not present
@@ -303,6 +309,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
   let hoverTimer = null;
   let hoverDelay = 200; // ms delay before popup shows
+
+  // Expose a way to re-show the popup (used when switching thumbnails
+  // while the mouse is already parked over the main image area)
+  window.__hoverPopupShow = function(src) {
+    if (hoverTimer) clearTimeout(hoverTimer);
+    hoverTimer = setTimeout(function() {
+      hoverPopupImg.src = src;
+      hoverPopup.classList.add('show');
+    }, hoverDelay);
+  };
 
   document.querySelectorAll('.product-gallery').forEach(gallery => {
     const mainImgs = gallery.querySelectorAll('.gallery-main img');
